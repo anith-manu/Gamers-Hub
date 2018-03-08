@@ -48,10 +48,9 @@ def profile(request, username):
     except User.DoesNotExist:
         return redirect('index')
 
-    uploads = Upload.objects.filter(user=user)
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
     form = UserProfileForm(
-        {'website': userprofile.website, 'picture': userprofile.picture, 'bio': userprofile.bio})
+        {'mygames': userprofile.mygames, 'picture': userprofile.picture, 'bio': userprofile.bio})
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
@@ -62,7 +61,7 @@ def profile(request, username):
             print(form.errors)
 
     return render(request, 'gamer_hub/profile.html',
-                  {'userprofile': userprofile, 'selecteduser': user, 'form': form, 'uploads': uploads})
+                  {'userprofile': userprofile, 'selecteduser': user, 'form': form})
 
 
 def list_profiles(request):

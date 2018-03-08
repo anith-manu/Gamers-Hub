@@ -4,14 +4,15 @@
 {% block title_block %}Users{% endblock %}
 
 {% block table_auth %}
-    <li class="step"><a href="{% url 'index' %}">Home</a></li>
+	{% if user.is_authenticated %}
+        <li class="step"><a href="{% url 'index' %}">Home</a></li>
     <li class="step"><a href="{% url 'profile' user.username %}">Profile</a></li>
     <li class="step"><a href="{% url 'auth_logout' %}?next=/gamer_hub/logout/">Logout</a>
-{% endblock %}
-{% block table_notauth %}
-    <li class="step"><a href="{% url 'index' %}">Home</a></li>
-    <li class="step"><a href="{% url 'registration_register' %}">Register</a></li>
+	{% else %}
+    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+	<li class="step"><a href="{% url 'registration_register' %}">Register</a></li>
     <li class="step"><a href="{% url 'auth_login' %}">Login</a></li>
+	{% endif %}
 {% endblock %}
 
 

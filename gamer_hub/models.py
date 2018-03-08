@@ -40,7 +40,7 @@ class Page(models.Model):
 		
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    website = models.URLField(blank=True)
+    mygames = models.CharField(blank=True, max_length=240)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     bio = models.CharField(blank=True, max_length=240)
 
@@ -51,7 +51,7 @@ class UserProfile(models.Model):
         return self.user.username
 		
 class UserProfileForm(forms.ModelForm):
-    website = forms.URLField(required=False)
+    mygames = forms.CharField(required=False)
     picture = forms.ImageField(required=False)
     bio = forms.CharField(required=False)
 

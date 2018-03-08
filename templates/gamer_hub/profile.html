@@ -4,6 +4,7 @@
 {% block title_block %}{{ selecteduser.username }}{% endblock %}
 
 {% block table_auth %}
+{% if user.is_authenticated %}
     {% if selecteduser.username == user.username %}
 	<li class="step"><a href="{% url 'index' %}">Home</a></li>
 	<li class="active"><a href="{% url 'profile' user.username %}">Profile</a></li>
@@ -13,11 +14,11 @@
 	<li class="step"><a href="{% url 'profile' user.username %}">Profile</a></li>
 	<li class="step"><a href="{% url 'auth_logout' %}?next=/gamer_hub/logout/">Logout</a>
     {% endif %}
-{% endblock %}
-{% block table_notauth %}
+{% else %}
     <li class="step"><a href="{% url 'index' %}">Home</a></li>
     <li class="step"><a href="{% url 'registration_register' %}">Register</a></li>
     <li class="step"><a href="{% url 'auth_login' %}">Login</a></li>
+{% endif %}
 {% endblock %}
 
 
@@ -49,9 +50,9 @@
                         <p>
                             <label>Email: {{ selecteduser.email }}</label>
                         <p>
-                            <label for="id_websiteebsite" class="sr-only">Website: {{ userprofile.website }}</label>
-                            <input type="text" id="id_website" class="form-control" name="website"
-                                   placeholder="www.example.com">
+                            <label for="id_mygames" class="sr-only">My games: {{ userprofile.website }}</label>
+                            <input type="text" id="id_mygames" class="form-control" name="mygames"
+                                   placeholder="Favorite games">
 
                         <p>
                             <label for="id_bio" style="padding-right:38px">Bio: {{ userprofile.bio }}</label>
@@ -84,6 +85,8 @@
                     {% endif %}
 
         <div id="edit_profile"></div>
+		
+		{% endif %}
 
 
 {% endblock %}
