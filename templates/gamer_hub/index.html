@@ -1,0 +1,34 @@
+<!doctype html>
+{% load staticfiles %}
+
+{% block title_block %} Homepage {% endblock %}
+
+{% block table_auth %}
+    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+	<li class="step"><a href="{% url 'auth_logout' %}?next=/gamer_hub/logout/">Logout</a>
+{% endblock %}
+{% block table_notauth %}
+    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+	<li class="step"><a href="{% url 'registration_register' %}">Register</a></li>
+    <li class="step"><a href="{% url 'auth_login' %}">Login</a></li>
+{% endblock %}
+
+{% block bodyblock %}
+
+    <div class="row">
+        <div class="large-10 large-centered columns text-center">
+
+            {% if user.is_authenticated %}
+                <p align="right" style="vertical-align: top">Welcome, {{ user.username }}! • <a
+                        href="{% url 'list_profiles' %}">User</a></p>
+            {% endif %}
+
+            <p></p>
+        </div>
+    </div>
+    <p></p>
+    <div class="row column">
+        <p></p>
+    </div>
+
+{% endblock %}

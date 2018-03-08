@@ -1,0 +1,21 @@
+<!doctype html>
+
+{% block title_block %}
+    Logged Out
+{% endblock %}
+
+{% block bodyblock %}
+    <div class="row">
+        <div class="large-12 columns text-center">
+            <h1 class="display-3">
+                You have been logged out.
+            </h1>
+            <p>
+            <div style="text-align: center;">Redirecting to homepage.</div>
+
+        </div>
+    </div>
+
+    <meta http-equiv="refresh" content="3;{% url 'index' %}"/>
+{% endblock %}
+	

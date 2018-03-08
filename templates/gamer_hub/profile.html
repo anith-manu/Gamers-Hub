@@ -1,0 +1,91 @@
+<!doctype html>
+{% load staticfiles %}
+
+{% block title_block %}{{ selecteduser.username }}{% endblock %}
+
+{% block table_auth %}
+    {% if selecteduser.username == user.username %}
+	<li class="step"><a href="{% url 'index' %}">Home</a></li>
+	<li class="active"><a href="{% url 'profile' user.username %}">Profile</a></li>
+    <li class="step"><a href="{% url 'auth_logout' %}?next=/gamer_hub/logout/">Logout</a>
+    {% else %}
+	<li class="step"><a href="{% url 'index' %}">Home</a></li>
+	<li class="step"><a href="{% url 'profile' user.username %}">Profile</a></li>
+	<li class="step"><a href="{% url 'auth_logout' %}?next=/gamer_hub/logout/">Logout</a>
+    {% endif %}
+{% endblock %}
+{% block table_notauth %}
+    <li class="step"><a href="{% url 'index' %}">Home</a></li>
+    <li class="step"><a href="{% url 'registration_register' %}">Register</a></li>
+    <li class="step"><a href="{% url 'auth_login' %}">Login</a></li>
+{% endblock %}
+
+
+{% block bodyblock %}
+    {% if user.is_authenticated %}
+        <div class="row">
+            <div class="large-12 columns text-center">
+                <h1 class="display-3">
+                    {{ selecteduser.username }}'s Profile
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-3 columns text-right">
+                {% if userprofile.picture %}
+                    <img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
+                         width="250"
+                         height="250"
+                         alt="{{ selecteduser.username }}"/>
+                {% else %}
+                    <img src="https://tinyurl.com/hea49k5" width="250px" height="250px" alt="{{ user.username }}"/>
+                {% endif %}
+            </div>
+            <div class="medium-9 columns">
+                <p>
+                    {% if selecteduser.username == user.username %}
+                        <form class="form-signin" role="form" method="post" action="." enctype="multipart/form-data">
+                            {% csrf_token %}
+                        <p>
+                            <label>Email: {{ selecteduser.email }}</label>
+                        <p>
+                            <label for="id_websiteebsite" class="sr-only">Website: {{ userprofile.website }}</label>
+                            <input type="text" id="id_website" class="form-control" name="website"
+                                   placeholder="www.example.com">
+
+                        <p>
+                            <label for="id_bio" style="padding-right:38px">Bio: {{ userprofile.bio }}</label>
+                            <textarea style="max-height:200px" id="id_bio" class="form-control" name="bio"
+                                      placeholder="Describe yourself here..."></textarea>
+
+                        <p>
+                            <label for="id_picture" style="padding-right:17px">Profile Picture: </label>
+                            <input type="file" id="id_picture" name="picture">
+
+
+                        <div class="input-group">
+                            <div class="input-group-button">
+                                <input class="button_submit" type="submit" style="margin:  0 30px 0 0 ;"
+                                       value="Update"/>
+                            </div>
+                            </form>
+
+
+                        </div>
+                        </div>
+                        </div>
+
+                    {% else %}
+
+                        <p style="padding-left:300px"><strong>Website:</strong> <a
+                                href="{{ userprofile.website }}">{{ userprofile.website }}</a></p>
+                        <p style="padding-left:300px"><strong>Bio:</strong> {{ userprofile.bio }}</p>
+
+                    {% endif %}
+
+        <div id="edit_profile"></div>
+
+
+{% endblock %}
+	
+

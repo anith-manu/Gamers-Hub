@@ -1,0 +1,61 @@
+<!doctype html>
+{% load staticfiles %}
+
+{% block title_block %}Users{% endblock %}
+
+{% block table_auth %}
+    <li class="step"><a href="{% url 'index' %}">Home</a></li>
+    <li class="step"><a href="{% url 'profile' user.username %}">Profile</a></li>
+    <li class="step"><a href="{% url 'auth_logout' %}?next=/gamer_hub/logout/">Logout</a>
+{% endblock %}
+{% block table_notauth %}
+    <li class="step"><a href="{% url 'index' %}">Home</a></li>
+    <li class="step"><a href="{% url 'registration_register' %}">Register</a></li>
+    <li class="step"><a href="{% url 'auth_login' %}">Login</a></li>
+{% endblock %}
+
+
+{% block bodyblock %}
+    {% if user.is_authenticated %}
+        <div class="row">
+        <div style="text-align: center;"><h1>Users</h1>
+        </div>
+
+        {% if userprofile_list %}
+            <div class="row">
+                {% for listuser in userprofile_list %}
+
+                    <div class="medium-2 columns text-center float-left">
+                        {% if listuser.picture %}
+                            <img width="128px" height="128px" src="{{ MEDIA_URL }}{{ listuser.picture }}"/>
+                        {% else %}
+                            <img width="128" height="128" src="https://tinyurl.com/hea49k5"/>
+                        {% endif %}
+
+
+                        <h4 class="list-group-item-heading">
+                            <a href="{% url 'profile' listuser.user.username %}">{{ listuser.user.username }}</a>
+                        </h4>
+                    </div>
+                    {% if forloop.counter|divisibleby:6 %}
+                        </div>
+                        <div class="row">
+                    {% endif %}
+                {% endfor %}
+                </div>
+
+
+
+        {% else %}
+            <p>There are no users for the site.</p>
+        {% endif %}
+
+    {% else %}
+        <p>You are not Signed in.
+            <br>Please Sign in or Sign up before viewing.
+        </p>
+    {% endif %}
+
+
+
+{% endblock %}
