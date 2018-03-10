@@ -39,7 +39,7 @@
                          height="250"
                          alt="{{ selecteduser.username }}"/>
                 {% else %}
-                    <img src="https://tinyurl.com/hea49k5" width="250px" height="250px" alt="{{ user.username }}"/>
+                    <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?d=mm&f=y" width="250px" height="250px" alt="{{ user.username }}"/>
                 {% endif %}
             </div>
             <div class="medium-9 columns">
@@ -50,7 +50,7 @@
                         <p>
                             <label>Email: {{ selecteduser.email }}</label>
                         <p>
-                            <label for="id_mygames" class="sr-only">My games: {{ userprofile.website }}</label>
+                            <label for="id_mygames" class="sr-only">My games: {{ userprofile.mygames }}</label>
                             <input type="text" id="id_mygames" class="form-control" name="mygames"
                                    placeholder="Favorite games">
 
@@ -78,8 +78,7 @@
 
                     {% else %}
 
-                        <p style="padding-left:300px"><strong>Website:</strong> <a
-                                href="{{ userprofile.website }}">{{ userprofile.website }}</a></p>
+                        <p style="padding-left:300px"><strong>My games:</strong> {{ userprofile.mygames }} </p>
                         <p style="padding-left:300px"><strong>Bio:</strong> {{ userprofile.bio }}</p>
 
                     {% endif %}
