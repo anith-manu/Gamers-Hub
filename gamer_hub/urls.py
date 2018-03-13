@@ -8,4 +8,7 @@ urlpatterns = [
 	url(r'^profile/(?P<username>[\w\-]+)/$', views.profile, name='profile'),
     url(r'^profiles/$', views.list_profiles, name='list_profiles'),
 	url(r'^logout/$', views.logout, name='logout'),
+	url(r'^game/(?P<game_name_slug>[\w\-]+)/$', views.show_game, name='show_game'),
+    url(r'^genre/(?P<genre>[\w\-]+)/$', views.show_genre, name='show_genre'),
+    url(r'^platform/(?P<platform_slug>[\w\-]+)/$', views.show_platform, name='show_platform'),
 ]

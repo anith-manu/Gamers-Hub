@@ -1,23 +1,29 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from gamer_hub.models import Page, UserProfile
 from gamer_hub.forms import UserProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from registration.backends.simple.views import RegistrationView
+from django.template.defaultfilters import slugify
+from django.http import HttpResponseRedirect, HttpResponse
+
 
 def index(request):
-    page_list = Page.objects.order_by('-views')[:5]
-    context_dict = {'pages': page_list}
+    # reviews = Review.objects.all()
+    # games_release_date_list = Game.objects.order_by('-release_date')[:3]
+    # games_rating_list = Game.objects.order_by('-rating')[:3]
+    # context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
+    context_dict = {}
+    return render(request, 'gamer_hub/index.html', context_dict)
 
-    response = render(request, 'gamer_hub/index.html', context_dict)
-    return response
 
 def logout(request):
     context_dict = {}
     response = render(request, 'registration/logout.html', context_dict)
     return response
-	
+
+
 @login_required
 def register_profile(request):
     form = UserProfileForm()
@@ -40,7 +46,8 @@ def register_profile(request):
 class gamer_hubRegistrationView(RegistrationView):
     def get_success_url(self, user):
         return reverse('register_profile')
-		
+
+
 @login_required
 def profile(request, username):
     try:
@@ -60,8 +67,13 @@ def profile(request, username):
         else:
             print(form.errors)
 
-    return render(request, 'gamer_hub/profile.html',
-                  {'userprofile': userprofile, 'selecteduser': user, 'form': form})
+    context_dict = {'userprofile': userprofile, 'selecteduser': user, 'form': form}
+    # reviews = Review.objects.filter(user__user=user.id)
+    # top_reviews = get_top_reviews(reviews)
+    # games_highest_rated_reviews = [review.game_title for review in top_reviews]
+    # context_dict['top_reviews'] = get_top_reviews(reviews)
+    # context_dict['top_games'] = set(games_highest_rated_reviews)
+    return render(request, 'gamer_hub/profile.html', context_dict)
 
 
 def list_profiles(request):
@@ -69,3 +81,76 @@ def list_profiles(request):
 
     return render(request, 'gamer_hub/list_profiles.html',
                   {'userprofile_list': userprofile_list})
+
+
+def modify_game_score(game_slug):
+    """ Auxiliary function which modifies the score field
+    in the game model based on the game's reviews"""
+    reviews = Review.objects.filter(game_title__slug=game_slug)
+    scores = [review.score for review in reviews]
+    if len(scores) > 0:
+        avg_rating = sum(scores)/len(scores)
+    else:
+        avg_rating = 0
+    game = Game.objects.get(slug=game_slug)
+    game.rating = avg_rating
+    game.save()
+
+
+def modify_all_games_score():
+    """ Auxiliary function which calls modify_game_score
+    on all games"""
+    games = Games.objects.all()
+    for game in games:
+        modify_game_score(game.slug)
+
+
+def get_top_reviews(reviews, number_of_reviews=3):
+    sorted_reviews = list(reviews)
+    sorted_reviews.sort(key=lambda x: x.upvotes-x.downvotes, reverse=True)
+    if len(sorted_reviews) >= number_of_reviews:
+        sorted_reviews = sorted_reviews[:number_of_reviews]
+    else:
+        sorted_reviews = sorted_reviews[:len(sorted_reviews)]
+    return sorted_reviews
+
+
+def about_us(request):
+    return render(request, 'gamer_hub/about_us.html')
+
+
+def show_platform(request, platform_slug):
+    games_release_date_list = Game.objects.filter(platform__slug=platform_slug).order_by('-release_date')[:3]
+    games_rating_list = Game.objects.filter(platform__slug=platform_slug).order_by('-rating')[:3]
+    context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
+    return render(request, 'gamer_hub/show_platform.html', context_dict)
+
+
+def show_genre(request, genre):
+    games_release_date_list = Game.objects.filter(genre=genre).order_by('-release_date')[:3]
+    games_rating_list = Game.objects.filter(genre=genre).order_by('-rating')[:3]
+    context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
+    return render(request, 'gamer_hub/show_genre.html', context_dict)
+
+
+def show_game(request, game_name_slug):
+    modify_game_score(game_name_slug)
+    context_dict = {}
+    game = get_object_or_404(Game, slug=game_name_slug)
+    reviews = Review.objects.filter(game_title__slug=game_name_slug)
+    context_dict['game'] = game
+    context_dict['avg_rating'] = game.rating
+    context_dict['top_reviews'] = get_top_reviews(reviews)
+    context_dict['reviews'] = reviews
+    user_profile = UserProfile.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, user_profile=user_profile, game_title=game)
+        if form.is_valid():
+            form.save(commit=True)
+            return HttpResponseRedirect(reverse("show_game", kwargs={'game_name_slug': game_name_slug}))
+        else:
+            print(form.errors)
+    else:
+        form = ReviewForm(user_profile=user_profile, game_title=game)
+    context_dict['form'] = form
+    return render(request, 'gamer_hub/show_game.html', context_dict)

@@ -6,6 +6,8 @@ from django import forms
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from random import randint
+from django.template.defaultfilters import slugify
+import uuid
 
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
@@ -37,7 +39,7 @@ class Page(models.Model):
 
     def __unicode__(self):
         return self.title
-		
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     mygames = models.CharField(blank=True, max_length=240)
@@ -49,7 +51,8 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return self.user.username
-		
+
+
 class UserProfileForm(forms.ModelForm):
     mygames = forms.CharField(required=False)
     picture = forms.ImageField(required=False)
@@ -58,3 +61,5 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ('user',)
+
+
