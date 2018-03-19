@@ -6,7 +6,6 @@ from django import forms
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from random import randint
-from django.template.defaultfilters import slugify
 import uuid
 
 class Category(models.Model):
@@ -61,5 +60,4 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ('user',)
-
 

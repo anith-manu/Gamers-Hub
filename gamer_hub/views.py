@@ -1,20 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from gamer_hub.models import Page, UserProfile
-from gamer_hub.forms import UserProfileForm
+from gamer_hub.forms import UserProfileForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from registration.backends.simple.views import RegistrationView
-from django.template.defaultfilters import slugify
 from django.http import HttpResponseRedirect, HttpResponse
 
 
 def index(request):
-    # reviews = Review.objects.all()
-    # games_release_date_list = Game.objects.order_by('-release_date')[:3]
-    # games_rating_list = Game.objects.order_by('-rating')[:3]
-    # context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
-    context_dict = {}
+    games_release_date_list = Game.objects.order_by('-release_date')[:3]
+    games_rating_list = Game.objects.order_by('-rating')[:3]
+    context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
     return render(request, 'gamer_hub/index.html', context_dict)
 
 
@@ -68,11 +65,11 @@ def profile(request, username):
             print(form.errors)
 
     context_dict = {'userprofile': userprofile, 'selecteduser': user, 'form': form}
-    # reviews = Review.objects.filter(user__user=user.id)
-    # top_reviews = get_top_reviews(reviews)
-    # games_highest_rated_reviews = [review.game_title for review in top_reviews]
-    # context_dict['top_reviews'] = get_top_reviews(reviews)
-    # context_dict['top_games'] = set(games_highest_rated_reviews)
+    reviews = Review.objects.filter(user__user=user.id)
+    top_reviews = get_top_reviews(reviews)
+    games_highest_rated_reviews = [review.game_title for review in top_reviews]
+    context_dict['top_reviews'] = get_top_reviews(reviews)
+    context_dict['top_games'] = set(games_highest_rated_reviews)
     return render(request, 'gamer_hub/profile.html', context_dict)
 
 
@@ -100,14 +97,14 @@ def modify_game_score(game_slug):
 def modify_all_games_score():
     """ Auxiliary function which calls modify_game_score
     on all games"""
-    games = Games.objects.all()
+    games = Game.objects.all()
     for game in games:
         modify_game_score(game.slug)
 
 
-def get_top_reviews(reviews, number_of_reviews=3):
+def get_top_reviews(reviews, number_of_reviews=4):
     sorted_reviews = list(reviews)
-    sorted_reviews.sort(key=lambda x: x.upvotes-x.downvotes, reverse=True)
+    sorted_reviews.sort(key=lambda x: x.points, reverse=True)
     if len(sorted_reviews) >= number_of_reviews:
         sorted_reviews = sorted_reviews[:number_of_reviews]
     else:
@@ -133,6 +130,52 @@ def show_genre(request, genre):
     return render(request, 'gamer_hub/show_genre.html', context_dict)
 
 
+def vote(request):
+    review_id = request.POST.get('review_id')
+    vote_action = request.POST.get('action')
+    vote_type = request.POST.get('type')
+    review = get_object_or_404(Review, review_id=review_id)
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+    reviews_upvoted = user_profile.reviews_upvoted.all()
+    reviews_downvoted = user_profile.reviews_downvoted.all()
+    if vote_action == 'vote':
+        if vote_type == 'up':
+            if review in reviews_downvoted:
+                user_profile.reviews_downvoted.remove(review)
+                user_profile.reviews_upvoted.add(review)
+                review.points = review.points+2
+            elif review not in reviews_downvoted and review not in reviews_upvoted:
+                user_profile.reviews_upvoted.add(review)
+                review.points += 1
+            else:
+                return HttpResponse('Error-cannot upvote an upvoted review')
+        elif vote_type == 'down':
+            if review in reviews_upvoted:
+                user_profile.reviews_upvoted.remove(review)
+                user_profile.reviews_downvoted.add(review)
+                review.points = review.points-2
+            elif review not in reviews_downvoted and review not in reviews_upvoted:
+                user_profile.reviews_downvoted.add(review)
+                review.points -= 1
+            else:
+                return HttpResponse('Error-cannot downvote a downvoted review')
+        else:
+            return HttpResponse('Error-unknown vote type')
+    elif vote_action == 'recall-vote':
+        if vote_type == 'up':
+            user_profile.reviews_upvoted.remove(review)
+            review.points = review.points-1
+        elif vote_type == 'down':
+            user_profile.reviews_downvoted.remove(review)
+            review.points = review.points+1
+        else:
+            return HttpResponse('error - unknown vote type or no vote to recall')
+    else:
+        return HttpResponse('error - bad action')
+    review.save()
+    return HttpResponse(review.points)
+
+
 def show_game(request, game_name_slug):
     modify_game_score(game_name_slug)
     context_dict = {}
@@ -140,17 +183,20 @@ def show_game(request, game_name_slug):
     reviews = Review.objects.filter(game_title__slug=game_name_slug)
     context_dict['game'] = game
     context_dict['avg_rating'] = game.rating
-    context_dict['top_reviews'] = get_top_reviews(reviews)
+    context_dict['top_reviews'] = get_top_reviews(reviews, number_of_reviews=len(reviews))
     context_dict['reviews'] = reviews
-    user_profile = UserProfile.objects.get(user=request.user)
-    if request.method == 'POST':
-        form = ReviewForm(request.POST, user_profile=user_profile, game_title=game)
-        if form.is_valid():
-            form.save(commit=True)
-            return HttpResponseRedirect(reverse("show_game", kwargs={'game_name_slug': game_name_slug}))
+    if request.user.is_authenticated():
+        user_profile = UserProfile.objects.get(user=request.user)
+        context_dict['reviews_upvoted'] = user_profile.reviews_upvoted.all()
+        context_dict['reviews_downvoted'] = user_profile.reviews_downvoted.all()
+        if request.method == 'POST':
+            form = ReviewForm(request.POST, user_profile=user_profile, game_title=game)
+            if form.is_valid():
+                form.save(commit=True)
+                return HttpResponseRedirect(reverse("show_game", kwargs={'game_name_slug': game_name_slug}))
+            else:
+                print(form.errors)
         else:
-            print(form.errors)
-    else:
-        form = ReviewForm(user_profile=user_profile, game_title=game)
-    context_dict['form'] = form
+            form = ReviewForm(user_profile=user_profile, game_title=game)
+        context_dict['form'] = form
     return render(request, 'gamer_hub/show_game.html', context_dict)

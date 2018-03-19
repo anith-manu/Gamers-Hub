@@ -1,0 +1,86 @@
+<!doctype html>
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+
+
+{% block title_block %} Homepage {% endblock %}
+<title>Font Awesome Icons</title>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="{% static 'js/vote.js' %}"></script>
+	<script src="{% static 'js/ajax-setup.js' %}"></script>
+</head>
+{% block table_auth %}
+	{% if user.is_authenticated %}
+    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+	<li class="active"><a href="{% url 'profile' user.username %}">Profile</a></li>
+	<li class="step"><a href="{% url 'auth_logout' %}?next=/gamer_hub/logout/">Logout</a>
+	{% else %}
+    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+	<li class="step"><a href="{% url 'registration_register' %}">Register</a></li>
+    <li class="step"><a href="{% url 'auth_login' %}">Login</a></li>
+	{% endif %}
+{% endblock %}
+
+{% block bodyblock %}
+
+    <div class="row">
+        <div class="large-10 large-centered columns text-center">
+
+            {% if user.is_authenticated %}
+                <p align="right" style="vertical-align: top">Welcome, {{ user.username }}! • <a
+                        href="{% url 'list_profiles' %}">User</a></p>
+            {% endif %}
+
+            <p></p>
+        </div>
+    </div>
+    <p></p>
+    <div class="row column">
+        <p></p>
+    </div>
+		{{ avg_rating }}
+	<div>
+	    <ul>
+			Top reviews
+			{% for review in top_reviews %}
+				<li class={{review}} id={{review}} data-review={{review}}>
+				{{ review.user }}	{{ review.score }}
+					<div>{{ review.content }}</div>
+                {% if user.is_authenticated %}
+					<div class="vote-buttons">
+					{% if review in reviews_upvoted  %}
+						<i class="fa fa-arrow-circle-up" data-review={{review}} style="font-size:28px;color:black"></i>
+					{% else %}
+						<i class="fa fa-arrow-circle-o-up" data-review={{review}} style="font-size:28px;color:black"></i>
+					{% endif %}
+						<span>{{ review.points }}</span>
+					{% if review in reviews_downvoted  %}
+						<i class="fa fa-arrow-circle-down" data-review={{review}} style="font-size:28px;color:black"></i>
+					{% else %}
+						<i class="fa fa-arrow-circle-o-down" data-review={{review}} style="font-size:28px;color:black"></i>
+					{% endif %}
+					</div>
+                {% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div>
+		{% if user.is_authenticated %}
+		<form id="add_review_form" method="post"  >
+			{% csrf_token %}
+			{% for hidden in form.hidden_fields %}
+				{{ hidden }}
+			{% endfor %}
+			{% for field in form.visible_fields %}
+				{{ field.errors }}
+				{{ field.help_text }}
+				{{ field }}
+			{% endfor %}
+			<input type="submit" name="submit" value="Add Review"/>
+		</form>
+		{% endif %}
+	</div>
+{% endblock %}
