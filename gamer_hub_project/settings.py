@@ -3,7 +3,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -23,12 +22,10 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
-
 FILE_UPLOAD_HANDLERS = [
     'django.core.files.uploadhandler.MemoryFileUploadHandler',
     'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 ]
-
 
 # Application definition
 
@@ -56,26 +53,24 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'gamer_hub_project.urls'
 
 TEMPLATES = [
-	{
-		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [TEMPLATE_DIR, ],
-		'APP_DIRS': True,
-		'OPTIONS': {
-			'context_processors': [
-				'django.template.context_processors.debug',
-				'django.template.context_processors.request',
-				'django.contrib.auth.context_processors.auth',
-				'django.contrib.messages.context_processors.messages',
-				'django.template.context_processors.media'
-			],
-
-		},
-	},
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [TEMPLATE_DIR, ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'gamer_hub.processors.get_platforms_and_genres',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
+            ],
+        },
+    },
 ]
 
-
 WSGI_APPLICATION = 'gamer_hub_project.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -87,13 +82,12 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
 PASSWORD_HASHERS = (
-	'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-	'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 )
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -104,7 +98,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-		'OPTIONS': {'min_length': 6}
+        'OPTIONS': {'min_length': 6}
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -113,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # If True, users can register
 REGISTRATION_OPEN = True
@@ -127,7 +120,6 @@ LOGIN_REDIRECT_URL = '/gamer_hub/'
 # and are trying to access pages requiring authentication
 LOGIN_URL = '/gamer_hub/accounts/login/'
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -140,7 +132,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
