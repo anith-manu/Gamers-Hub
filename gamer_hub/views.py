@@ -21,24 +21,6 @@ def logout(request):
     return response
 
 
-@login_required
-def register_profile(request):
-    form = UserProfileForm()
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            user_profile = form.save(commit=False)
-            user_profile.user = request.user
-            user_profile.save()
-
-            return redirect('index')
-        else:
-            print(form.errors)
-
-    context_dict = {'form': form}
-
-    return render(request, 'gamer_hub/profile_registration.html', context_dict)
-
 
 class gamer_hubRegistrationView(RegistrationView):
     def get_success_url(self, user):
