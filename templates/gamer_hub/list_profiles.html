@@ -1,18 +1,7 @@
-<!doctype html>
+{% extends 'gamer_hub/base.html' %}
 {% load staticfiles %}
-
-{% block title_block %}Users{% endblock %}
-
-{% block table_auth %}
-	{% if user.is_authenticated %}
-        <li class="step"><a href="{% url 'index' %}">Home</a></li>
-    <li class="step"><a href="{% url 'profile' user.username %}">Profile</a></li>
-    <li class="step"><a href="{% url 'auth_logout' %}?next=/gamer_hub/logout/">Logout</a>
-	{% else %}
-    <li class="active"><a href="{% url 'index' %}">Home</a></li>
-	<li class="step"><a href="{% url 'registration_register' %}">Register</a></li>
-    <li class="step"><a href="{% url 'auth_login' %}">Login</a></li>
-	{% endif %}
+{% block title_block %}
+  Profile
 {% endblock %}
 
 

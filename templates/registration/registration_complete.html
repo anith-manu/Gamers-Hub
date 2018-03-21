@@ -1,19 +1,5 @@
-<!doctype html>
-
-{% block title_block %}Registration Complete{% endblock %}
-
-{% block bodyblock %}
-    <div class="row">
-        <div class="large-12 columns text-center">
-            <h1 class="display-3">
-                You are now registered.
-            </h1>
-            <p>
-                Redirecting to homepage.
-            </p>
-        </div>
-    </div>
-
-    <meta http-equiv="refresh" content="3;{% url 'index'%}"/>
+{% extends 'gamer_hub/base.html' %}
+{% block body_block %}
+<link href="http://v4-alpha.getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+<h1 style="padding-left: 32.5%; padding-top:20% ">Registration Complete!</h1>
 {% endblock %}
-	

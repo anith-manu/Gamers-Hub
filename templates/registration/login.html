@@ -1,41 +1,25 @@
-<!doctype html>
+{% extends 'gamer_hub/base.html' %}
 {% load staticfiles %}
+
 
 {% block title_block %}Sign In{% endblock %}
 
-{% block table_notauth %}
-    <li class="step"><a href="{% url 'index' %}">Home</a></li>
-    <li class="step"><a href="{% url 'registration_register' %}">Register</a></li>
-    <li class="active"><a href="{% url 'auth_login' %}">Login</a></li>
-{% endblock %}
+{% block body_block %}
+<link href="http://v4-alpha.getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
 
 
-{% block bodyblock %}
-    <div class="row">
-        <div class="large-4 large-centered columns">
-            <p>
-            <div>
-                <h1 class="display-3">Sign In</h1>
-            </div>
-
-            <form class="form-signin" role="form" method="post" action=".">
-                {% csrf_token %}
-                <h2 class="form-signin-heading">Please sign in</h2>
-
-                <label for="inputUsername" class="sr-only">Username</label>
-                <input type="text" id="id_username" class="form-control"
-                       name="username" placeholder="JohnSmith">
-
-                <label for="inputPassword" class="sr-only" style='padding-right:5px'>Password </label>
-                <input type="password" id="id_password" class="form-control"
-                       name="password" placeholder="password1234">
-                <button class="button_submit" type="submit" value="Submit">
-                    Sign in
-                </button>
-                <input type="hidden" name="next" value="{{ next }}"/>
-            </form>
-
-            <p>Not a member? <a href="{% url 'registration_register' %}">Register!</a></p>
+      <form class="form-signin" role="form" method="post" action=".">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Please Sign In</h2>
+        <input type="text" name="username" id="id_username" class="form-control" placeholder="Username" required autofocus>
+        <p></p>
+        <input type="password" name= "password" id="id_password" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+        
         </div>
-    </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      
+
+		</form>
+
 {% endblock %}
