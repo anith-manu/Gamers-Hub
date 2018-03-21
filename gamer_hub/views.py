@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from gamer_hub.models import Page, UserProfile
+from gamer_hub.models import Page, UserProfile, Game, Review, Platform
 from gamer_hub.forms import UserProfileForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -77,7 +77,7 @@ def modify_game_score(game_slug):
 
 
 def modify_all_games_score():
-    """ Auxiliary function which calls modify_game_score
+    """Auxiliary function which calls modify_game_score
     on all games"""
     games = Game.objects.all()
     for game in games:
@@ -110,6 +110,14 @@ def show_genre(request, genre):
     games_rating_list = Game.objects.filter(genre=genre).order_by('-rating')[:3]
     context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
     return render(request, 'gamer_hub/show_genre.html', context_dict)
+
+
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, review_id=review_id)
+    game_title = review.game_title
+    game = get_object_or_404(Game, title=game_title)
+    review.delete()
+    return HttpResponseRedirect(reverse("show_game", kwargs={'game_name_slug': game.slug}))
 
 
 def vote(request):

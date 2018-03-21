@@ -48,7 +48,9 @@
 				<li class={{review}} id={{review}} data-review={{review}}>
 				{{ review.user }}	{{ review.score }}
 					<div>{{ review.content }}</div>
+
                 {% if user.is_authenticated %}
+
 					<div class="vote-buttons">
 					{% if review in reviews_upvoted  %}
 						<i class="fa fa-arrow-circle-up" data-review={{review}} style="font-size:28px;color:black"></i>
@@ -62,6 +64,11 @@
 						<i class="fa fa-arrow-circle-o-down" data-review={{review}} style="font-size:28px;color:black"></i>
 					{% endif %}
 					</div>
+					{% ifequal user review.user.user %}
+						<form action="{% url 'delete_view' review %}">
+							<input type="submit" value="Delete Review" />
+						</form>
+					{% endifequal %}
                 {% endif %}
 				</li>
 			{% endfor %}

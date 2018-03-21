@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from gamer_hub.models import Page, UserProfile
+from gamer_hub.models import Page, UserProfile, Review, Game
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 
@@ -56,7 +56,7 @@ class ReviewForm(forms.ModelForm):
 
     user = forms.ModelChoiceField(UserProfile.objects.all(), widget=forms.HiddenInput())
     game_title = forms.ModelChoiceField(Game.objects.all(), widget=forms.HiddenInput())
-    content = forms.CharField(max_length=200, help_text="Enter your text", widget=forms.Textarea)
+    content = forms.CharField(max_length=800, help_text="Enter your text", widget=forms.Textarea)
     CHOICES = (('1', '1'), ('2', '2',), ('2', '3'),
                ('4', '4', ), ('5', '5',), ('6', '6'),
                ('7', '7', ), ('8', '8',), ('9', '9'), ('10', '10'))
