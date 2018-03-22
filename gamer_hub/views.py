@@ -193,3 +193,11 @@ def show_game(request, game_name_slug):
             form = ReviewForm(user_profile=user_profile, game_title=game)
         context_dict['form'] = form
     return render(request, 'gamer_hub/show_game.html', context_dict)
+
+def search(request):
+	if 'q' in request.GET and request.GET['q']:
+		q = request.GET['q']
+		games = Game.objects.filter(title=q)
+		return render(request, 'gamer_hub/search_result.html', {'games': games, 'query': q})
+	else:
+		return HttpResponse('search here')

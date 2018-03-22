@@ -1,0 +1,23 @@
+{% extends 'gamer_hub/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+	{{game}}
+{% endblock %}
+
+
+{% block body_block %}
+<p>You searched for: <strong>{{ query }}</strong></p>
+
+{% if games%}
+<ul>
+    {% for game in games %}
+    <h5><a href="{% url 'show_game' game.slug %}">{{ game }}</a></h5>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No games matched your search criteria.</p>
+{% endif %}
+
+
+
+{% endblock %}

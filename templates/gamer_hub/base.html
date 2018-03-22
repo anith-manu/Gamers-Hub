@@ -72,7 +72,9 @@
           </li>
           {% endif %}
         </ul>
-
+			<form type="get" action="{% url 'search' %}">
+			<input type="search" id="q" name="q" placeholder="Search..."/>
+			</form>
       </div>
 
 

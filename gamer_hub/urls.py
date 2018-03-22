@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^platform/(?P<platform_slug>[\w\-]+)/$', views.show_platform, name='show_platform'),
     url(r'^vote/$', views.vote, name='vote'),
     url(r'^delete/(?P<review_id>[\w\d\-]+)/$', views.delete_review, name='delete_view'),
+	url(r'^search/$', views.search, name='search'),
 ]
