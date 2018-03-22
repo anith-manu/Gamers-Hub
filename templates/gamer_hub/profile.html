@@ -15,7 +15,7 @@
 
 <section class="jumbotron text-center">
       <div class="container">
-        <h1 class="jumbotron-heading">Hello {{ selecteduser.username }}!</h1>
+        <h1 class="jumbotron-heading">{{ selecteduser.username }}'s Profile</h1>
         <hr/>
       </div>
     </section>
@@ -44,7 +44,7 @@
                         <p>
                             <label>Email: {{ selecteduser.email }}</label>
                         <p>
-                            <label for="id_mygames" style="padding-right:38px class="sr-only">My games: {{ userprofile.mygames }}</label>
+                            <label for="id_mygames" style="padding-right:38px class="sr-only">My Games: {{ userprofile.mygames }}</label>
                             <input type="text" id="id_mygames" class="form-control" name="mygames"
                                    placeholder="Favorite games">
 
@@ -75,23 +75,10 @@
                         <p style="padding-left:300px"><strong>My games:</strong> {{ userprofile.mygames }} </p>
                         <p style="padding-left:300px"><strong>Bio:</strong> {{ userprofile.bio }}</p>
 
-                   
-
-        <div id="edit_profile"></div>
-		
-		{% endif %}
+        {% endif %}
     </div>
- 
-
-
-      
-     
-            
-           
-    
-        
 
 
 {% endblock %}
-	
+    
 

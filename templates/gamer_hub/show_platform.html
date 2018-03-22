@@ -1,12 +1,14 @@
 {% extends 'gamer_hub/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
- 	{{platform.name}}
+  {{platform.name}}
 {% endblock %}
 
 {% block body_block %}
 
 <link href="http://v4-alpha.getbootstrap.com/examples/album/album.css" rel="stylesheet">
+
+
 
 
 <section class="jumbotron text-center">
@@ -16,11 +18,31 @@
       <hr/>
     </section>
 
-   
+ 
+<div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar" style="position: relative; left: 800px; top: -50px">
+          <div class="list-group">
+            <a class="list-group-item active" style="color: white">Search By Genre</a>
+            {% for genre in genres %}
+                <a class="list-group-item" href="{% url 'show_genre' genre=genre%}">{{genre}}</a>
+            {% endfor %}
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
+<p></p>
+      <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar" style="position: relative; left: 800px; top: -50px">
+          <div class="list-group">
+            <a class="list-group-item active" style="color: white">Search By Platform</a>
+            {% for platform in platforms %}
+                <a class="list-group-item" href="{% url 'show_platform' platform_slug=platform.slug%}">{{platform}}</a>
+              {% endfor %}
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
+
 
       
 
-<div class="container">
+<div class="container" style="position: relative; bottom: 460px; left: 50px">
 
       <div class="row row-offcanvas row-offcanvas-right">
 
@@ -30,44 +52,33 @@
           </p>
          
           
-            <div class="col-6 col-lg-4">
-          
-             
-            
-            </div><!--/span-->
-
+     
             {% for game in games_rating %}
-            {% if game.picture %}
-              <img  src="{{ MEDIA_URL }}{{ game.picture }}"
+            
+
+                    <div class="medium-2 columns text-center float-left" style="padding-right: 2%; padding-bottom: 2%">
+                   {% if game.picture %}
+                            <img  src="{{ MEDIA_URL }}{{ game.picture }}"
                          width="356"
                          height="280"
                          alt="{{ selectedgame.title }}"/>
-            {% else %}
-              <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?d=mm&f=y" width="356px" height="280px" alt="{{ user.username }}"/>
-            {% endif %}
+                        {% else %}
+                          <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?d=mm&f=y" width="356px" height="280px" alt="{{ user.username }}"/>
+                        {% endif %}
 
-            <h5><a href="{% url 'show_game' game.slug %}">{{ game }}</a></h5>
 
-            {% endfor %}
+                        <h4 class="list-group-item-heading">
+                            <a href="{% url 'show_game' game.slug %}">{{ game }}</a>
+                        </h4>
+                    </div>
+                    {% if forloop.counter|divisibleby:6 %}
+                        </div>
+                        <div class="row">
+                    {% endif %}
+                {% endfor %}
             
           </div><!--/row-->
         </div><!--/span-->
-
-        <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar">
-          <div class="list-group">
-            <a href="#" class="list-group-item active">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-          </div>
-        </div><!--/span-->
-      </div><!--/row-->
-
+      
 
 {% endblock %}

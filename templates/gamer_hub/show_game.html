@@ -26,7 +26,10 @@
 			
 				<div style="padding-left: 58%; position: relative; top: -30px" class="rating-block">
 					<h4>Average user rating</h4>
-					<h2 class="bold padding-bottom-7"> {{ avg_rating }}<small>/ 5</small></h2>
+					<h2 class="bold padding-bottom-7"> {{ avg_rating }}<small>/ 10</small></h2>
+					<p></p>
+					<h4 style="padding-top: 4%">Description</h4>
+					<p>{{ game.game_info }}</p>
 					
 				</div>
 			</div>
@@ -39,7 +42,7 @@
         <p></p>
     </div>
 	
-	<div style="position: relative; left: 13%; top: -130px">
+	<div style="position: relative; left: 13%; top: -320px">
 	    <ul>
 	    	{% if game.picture %}
                     <img  src="{{ MEDIA_URL }}{{ game.picture }}"
@@ -57,11 +60,11 @@
 
 
 
-<div style="padding-left: 16.6%; position: relative; top: -100px">
-	{% if game.youtube_url %}
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/{{game.youtube_url}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-	{% endif %}
-	<h4>Top Reviews</h4>
+<div style="padding-left: 16.6%; position: relative; top: -300px">
+	<h4 style="padding-top: 5%">Trailer</h4>
+	<hr/ class="col" >
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/{{game.youtube_url}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	<h4 style="padding-top: 8%">Top Reviews</h4>
 	{% for review in top_reviews %}
 	<div class="row">
 			<div class="col-sm-7">
@@ -69,8 +72,11 @@
 				<div class="review-block">
 					<div class="row">
 						<div class="col-sm-3">
-							{% if userprofile.picture %}
-							<img src="{{ MEDIA_URL }}{{ userprofile.picture }}" class="img-rounded">
+							{% if review.user.picture %}
+							<img src="{{ MEDIA_URL }}{{ review.user.picture }}" class="img-rounded"
+							width="100"
+							height="100"
+							alt="{{ selecteduser.username }}"/>
 							{% else %}
            					 <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?d=mm&f=y" alt="{{ user.username }}" class="img-rounded"/>
         					{% endif %}
@@ -78,7 +84,7 @@
 							<div class="review-block-date">Rating: {{ review.score }}</div>
 						</div>
 						<div class="col-sm-9" id={{review}}>
-							
+
 							<div class="review-block-description">{{ review.content }}</div>
 							 {% if user.is_authenticated %}
 					<div class="vote-buttons" style="padding-left: 70%; padding-top: 6%">
@@ -113,7 +119,7 @@
 		{% endfor %}
 	</div>
 		
-		<div style="position: relative; left: 15%; top: -50px; padding-bottom: 5%;">
+		<div style="position: relative; left: 15%; top: -250px; padding-bottom: 5%;">
 		{% if user.is_authenticated %}
 		<form id="add_review_form" method="post" style="width: 60%;">
 			{% csrf_token %}

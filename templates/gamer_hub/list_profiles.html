@@ -6,20 +6,69 @@
 
 
 {% block body_block %}
-    {% if user.is_authenticated %}
-        <div class="row">
-        <div style="text-align: center;"><h1>Users</h1>
-        </div>
 
-        {% if userprofile_list %}
-            <div class="row">
-                {% for listuser in userprofile_list %}
 
-                    <div class="medium-2 columns text-center float-left">
+
+
+<link href="http://v4-alpha.getbootstrap.com/examples/album/album.css" rel="stylesheet">
+
+
+
+<section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">The Hub</h1>
+      </div>
+      <hr/>
+    </section>
+
+ 
+<div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar" style="position: relative; left: 800px; top: -50px">
+          <div class="list-group">
+            <a class="list-group-item active" style="color: white">Search By Genre</a>
+            {% for genre in genres %}
+                <a class="list-group-item" href="{% url 'show_genre' genre=genre%}">{{genre}}</a>
+            {% endfor %}
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
+<p></p>
+      <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar" style="position: relative; left: 800px; top: -50px">
+          <div class="list-group">
+            <a class="list-group-item active" style="color: white">Search By Platform</a>
+            {% for platform in platforms %}
+                <a class="list-group-item" href="{% url 'show_platform' platform_slug=platform.slug%}">{{platform}}</a>
+              {% endfor %}
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
+
+
+      
+
+<div class="container" style="position: relative; bottom: 460px; left: 50px">
+
+      <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-12 col-md-9">
+          <p class="float-right hidden-md-up">
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+         
+          
+            <div class="col-6 col-lg-4">
+          
+             
+            
+            </div><!--/span-->
+            {% for listuser in userprofile_list %}
+
+                    <div class="medium-2 columns text-center float-left" style="padding-right: 2%; padding-bottom: 2%">
                         {% if listuser.picture %}
-                            <img width="128px" height="128px" src="{{ MEDIA_URL }}{{ listuser.picture }}"/>
+                            <img width="356"
+                         height="280" src="{{ MEDIA_URL }}{{ listuser.picture }}"/>
                         {% else %}
-                            <img width="128" height="128" src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?d=mm&f=y"/>
+                            <img width="356"
+                         height="280" src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?d=mm&f=y"/>
                         {% endif %}
 
 
@@ -29,22 +78,12 @@
                     </div>
                     {% if forloop.counter|divisibleby:6 %}
                         </div>
-                        <div class="row">
+                        <div class="row" >
                     {% endif %}
                 {% endfor %}
-                </div>
-
-
-
-        {% else %}
-            <p>There are no users for the site.</p>
-        {% endif %}
-
-    {% else %}
-        <p>You are not Signed in.
-            <br>Please Sign in or Sign up before viewing.
-        </p>
-    {% endif %}
+            
+          </div><!--/row-->
+        </div><!--/span-->
 
 
 
