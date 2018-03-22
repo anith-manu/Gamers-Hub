@@ -64,6 +64,7 @@ class Game(models.Model):
     release_date = models.DateField(null=True)
     slug = models.SlugField(blank=True, unique=True)
     rating = models.DecimalField(blank=True, default=1, decimal_places=2, max_digits=4)
+    youtube_url = models.CharField(max_length=100, blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)

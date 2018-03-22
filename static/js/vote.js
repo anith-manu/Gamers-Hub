@@ -5,12 +5,13 @@ $(document).ready(function() {
 		var elem = $(this);
 		if (isIgnore)return;
 		isIgnore = true;
+		var csrf = $(this).data('csrf');
 		if ($(this).hasClass('fa-arrow-circle-o-up')){
 			var vote_type = 'up';
 			var vote_action = 'vote';
-			$.post('/gamer_hub/vote/', {review_id:review_id, action:vote_action, type:vote_type}, function(response){
+			$.post('/gamer_hub/vote/', {review_id:review_id, action:vote_action, type:vote_type, csrfmiddlewaretoken:csrf}, function(response){
 					elem.toggleClass('fa-arrow-circle-o-up fa-arrow-circle-up');
-					$('li.' + review_id + ' div.vote-buttons span').text(response);
+					$('div#' + review_id + ' div.vote-buttons span').text(response);
 					if ($(elem).siblings(".fa-arrow-circle-down")){
 						$(elem).siblings(".fa-arrow-circle-down").toggleClass('fa-arrow-circle-o-down fa-arrow-circle-down');
 					}
@@ -22,8 +23,8 @@ $(document).ready(function() {
 		else if ($(this).hasClass('fa-arrow-circle-up')){
 			var vote_type = 'up';
 			var vote_action = 'recall-vote';
-			$.post('/gamer_hub/vote/', {review_id:review_id, action:vote_action, type:vote_type}, function(response){
-					$('li.' + review_id + ' div.vote-buttons span').text(response);
+			$.post('/gamer_hub/vote/', {review_id:review_id, action:vote_action, type:vote_type, csrfmiddlewaretoken:csrf}, function(response){
+					$('div#' + review_id + ' div.vote-buttons span').text(response);
 					elem.toggleClass('fa-arrow-circle-o-up fa-arrow-circle-up');
 					isIgnore = false;
 			});
@@ -31,8 +32,8 @@ $(document).ready(function() {
 		else if ($(this).hasClass('fa-arrow-circle-o-down')){
 			var vote_type = 'down';
 			var vote_action = 'vote';
-			$.post('/gamer_hub/vote/', {review_id:review_id, action:vote_action, type:vote_type}, function(response){
-					$('li.' + review_id + ' div.vote-buttons span').text(response);
+			$.post('/gamer_hub/vote/', {review_id:review_id, action:vote_action, type:vote_type, csrfmiddlewaretoken:csrf}, function(response){
+					$('div#' + review_id + ' div.vote-buttons span').text(response);
 					elem.toggleClass('fa-arrow-circle-o-down fa-arrow-circle-down');
 					if ($(elem).siblings(".fa-arrow-circle-up")){
 						$(elem).siblings(".fa-arrow-circle-up").toggleClass('fa-arrow-circle-o-up fa-arrow-circle-up');
@@ -44,8 +45,8 @@ $(document).ready(function() {
 			
 			var vote_type = 'down';
 			var vote_action = 'recall-vote';
-			$.post('/gamer_hub/vote/', {review_id:review_id, action:vote_action, type:vote_type}, function(response){
-					$('li.' + review_id + ' div.vote-buttons span').text(response);
+			$.post('/gamer_hub/vote/', {review_id:review_id, action:vote_action, type:vote_type, csrfmiddlewaretoken:csrf}, function(response){
+					$('div#' + review_id + ' div.vote-buttons span').text(response);
 					elem.toggleClass('fa-arrow-circle-o-down fa-arrow-circle-down');
 					isIgnore = false;
 			});

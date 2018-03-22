@@ -10,7 +10,10 @@
 
 <link href="http://v4-alpha.getbootstrap.com/examples/album/album.css" rel="stylesheet">
 
-
+    <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="{% static 'js/vote.js' %}"></script>
+    <script src="{% static 'js/ajax-setup.js' %}"></script>
 
 
 <section class="jumbotron text-center">
@@ -54,7 +57,10 @@
 
 
 
-<div style="padding-left: 16.6%; position: relative; top: -100px"> 
+<div style="padding-left: 16.6%; position: relative; top: -100px">
+	{% if game.youtube_url %}
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/{{game.youtube_url}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	{% endif %}
 	<h4>Top Reviews</h4>
 	{% for review in top_reviews %}
 	<div class="row">
@@ -68,24 +74,24 @@
 							{% else %}
            					 <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?d=mm&f=y" alt="{{ user.username }}" class="img-rounded"/>
         					{% endif %}
-							<div class="review-block-name"><a href="{% url 'profile' user.username %}">{{ user.username }}</a></div>
+							<div class="review-block-name"><a href="{% url 'profile' review.user.user.username %}">{{ review.user.user.username }}</a></div>
 							<div class="review-block-date">Rating: {{ review.score }}</div>
 						</div>
-						<div class="col-sm-9">
+						<div class="col-sm-9" id={{review}}>
 							
 							<div class="review-block-description">{{ review.content }}</div>
 							 {% if user.is_authenticated %}
 					<div class="vote-buttons" style="padding-left: 70%; padding-top: 6%">
 					{% if review in reviews_upvoted  %}
-						<i class="fa fa-arrow-circle-up" data-review={{review}} style="font-size:28px;color:black"></i>
+						<i class="fa fa-arrow-circle-up" data-review={{review}} data-csrf={{csrf_token}} style="font-size:28px;color:black"></i>
 					{% else %}
-						<i class="fa fa-arrow-circle-o-up" data-review={{review}} style="font-size:28px;color:black"></i>
+						<i class="fa fa-arrow-circle-o-up" data-review={{review}} data-csrf={{csrf_token}} style="font-size:28px;color:black"></i>
 					{% endif %}
 						<span>{{ review.points }}</span>
 					{% if review in reviews_downvoted  %}
-						<i class="fa fa-arrow-circle-down" data-review={{review}} style="font-size:28px;color:black"></i>
+						<i class="fa fa-arrow-circle-down" data-review={{review}} data-csrf={{csrf_token}} style="font-size:28px;color:black"></i>
 					{% else %}
-						<i class="fa fa-arrow-circle-o-down" data-review={{review}} style="font-size:28px;color:black"></i>
+						<i class="fa fa-arrow-circle-o-down" data-review={{review}} data-csrf={{csrf_token}} style="font-size:28px;color:black"></i>
 					{% endif %}
 					{% ifequal user review.user.user %}
 						<form action="{% url 'delete_view' review %}">
