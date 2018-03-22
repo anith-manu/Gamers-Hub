@@ -99,16 +99,19 @@ def about_us(request):
 
 
 def show_platform(request, platform_slug):
-    games_release_date_list = Game.objects.filter(platform__slug=platform_slug).order_by('-release_date')[:3]
-    games_rating_list = Game.objects.filter(platform__slug=platform_slug).order_by('-rating')[:3]
+    games_release_date_list = Game.objects.filter(platform__slug=platform_slug).order_by('-release_date')[:100]
+    games_rating_list = Game.objects.filter(platform__slug=platform_slug).order_by('-rating')[:100]
     context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
+    platform = get_object_or_404(Platform, slug=platform_slug)
+    context_dict['platform'] = platform
     return render(request, 'gamer_hub/show_platform.html', context_dict)
 
 
 def show_genre(request, genre):
-    games_release_date_list = Game.objects.filter(genre=genre).order_by('-release_date')[:3]
-    games_rating_list = Game.objects.filter(genre=genre).order_by('-rating')[:3]
+    games_release_date_list = Game.objects.filter(genre=genre).order_by('-release_date')[:100]
+    games_rating_list = Game.objects.filter(genre=genre).order_by('-rating')[:100]
     context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
+    context_dict['genre'] = genre
     return render(request, 'gamer_hub/show_genre.html', context_dict)
 
 

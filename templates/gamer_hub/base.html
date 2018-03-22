@@ -27,7 +27,7 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
           </li>
           
@@ -54,6 +54,9 @@
           {% if user.is_authenticated %}
            <li class="nav-item">
             <a class="nav-link" href="{% url 'profile' user.username %}">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'list_profiles' %}">The Hub</a>
           </li>
            <li class="nav-item">
             <a class="nav-link" href="{% url 'auth_logout' %}?next=/gamer_hub/logout/">Logout</a>

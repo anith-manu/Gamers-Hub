@@ -1,12 +1,13 @@
 ﻿{% extends 'gamer_hub/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
-{{ selecteduser.username }}
+    {{ selecteduser.username }}
 {% endblock %}
 
 
 
 {% block body_block %}
+
 
 <link href="http://v4-alpha.getbootstrap.com/examples/album/album.css" rel="stylesheet">
 <link href="http://v4-alpha.getbootstrap.com/examples/narrow-jumbotron/narrow-jumbotron.css" rel="stylesheet">
@@ -15,11 +16,11 @@
 <section class="jumbotron text-center">
       <div class="container">
         <h1 class="jumbotron-heading">Hello {{ selecteduser.username }}!</h1>
-        
+        <hr/>
       </div>
     </section>
 
-<div class="jumbotron">
+<div class="jumbotron" style="position: relative; top: -100px">
         
         <div class="lead">
                 {% if userprofile.picture %}
@@ -35,7 +36,7 @@
         
       </div>
 
-        <div class="medium-9 columns">
+        <div class="medium-9 columns" style="position: relative; top: -140px">
                 <p>
                     {% if selecteduser.username == user.username %}
                         <form class="form-signin" role="form" method="post" action="." enctype="multipart/form-data">
@@ -43,7 +44,7 @@
                         <p>
                             <label>Email: {{ selecteduser.email }}</label>
                         <p>
-                            <label for="id_mygames" class="sr-only">My games: {{ userprofile.mygames }}</label>
+                            <label for="id_mygames" style="padding-right:38px class="sr-only">My games: {{ userprofile.mygames }}</label>
                             <input type="text" id="id_mygames" class="form-control" name="mygames"
                                    placeholder="Favorite games">
 

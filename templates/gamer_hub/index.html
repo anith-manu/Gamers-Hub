@@ -53,28 +53,38 @@
 <div class="container marketing">
 
       <!-- Three columns of text below the carousel -->
-      <div class="row">
+      <div class="row" style="position: relative; left: 177px">
         <div class="col-lg-4">
+                    <h2>Top Rated Games</h2>
+          {% if games_rating %}
+            {% for game in games_rating %}
+            <h5><a href="{% url 'show_game' game.slug %}">{{ game }}</a></li></h5>
           
-          <h2>Top Rated Games</h2>
-          <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+          {% endfor %}
+        
+          {% else %}
+            <strong>There are no games present.</strong>
+          {% endif %}
           
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
    
-          <h2>Most Popular Games</h2>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+          <h2>Latest Releases</h2>
+          {% if games_release_date %}
+            {% for game in games_release_date %}
+            <h5><a href="{% url 'show_game' game.slug %}">{{ game }}</a></h5>
+          
+          {% endfor %}
+        
+          {% else %}
+            <strong>There are no games present.</strong>
+          {% endif %}
          
         </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-        
-          <h2>Coming Soon</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-     
-        </div><!-- /.col-lg-4 -->
+      
       </div><!-- /.row -->
 
-<h2  style="padding-left: 40% ; padding-top: 5%">Latest Releases</h2>
+<h2  style="padding-left: 40% ; padding-top: 5%">Coming Soon</h2>
     <hr class="featurette-divider">
 
       <div class="row featurette">
