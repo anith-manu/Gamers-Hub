@@ -12,7 +12,7 @@ SECRET_KEY = '5@ya10ysp)i)s+mw1lmz&gsu03w6n_vaa!pp5^&#(2w6$z3rc8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gamerhub1.pythonanywhere.com']
 
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = MEDIA_DIR
