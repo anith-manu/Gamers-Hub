@@ -19,7 +19,7 @@
     </section>
 
  
-<div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar" style="position: relative; left: 800px; top: -50px">
+<div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar" style="position: relative; left: ; top: -50px">
           <div class="list-group">
             <a class="list-group-item active" style="color: white">Search By Genre</a>
             {% for genre in genres %}
@@ -29,7 +29,7 @@
         </div><!--/span-->
       </div><!--/row-->
 <p></p>
-      <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar" style="position: relative; left: 800px; top: -50px">
+      <div class="col-6 col-md-3 sidebar-offcanvas" id="sidebar" style="position: relative; left: ; top: -50px">
           <div class="list-group">
             <a class="list-group-item active" style="color: white">Search By Platform</a>
             {% for platform in platforms %}
@@ -40,9 +40,10 @@
       </div><!--/row-->
 
 
+
       
 
-<div class="container" style="position: relative; bottom: 460px; left: 50px">
+<div class="container" style="position: relative; bottom: 460px; left: 350px">
 
       <div class="row row-offcanvas row-offcanvas-right">
 
@@ -58,12 +59,12 @@
 
                     <div class="medium-2 columns text-center float-left" style="padding-right: 2%; padding-bottom: 2%">
                    {% if game.picture %}
-                            <img  src="{{ MEDIA_URL }}{{ game.picture }}"
+                             <a href="{% url 'show_game' game.slug %}"><img  src="{{ MEDIA_URL }}{{ game.picture }}"
                          width="356"
                          height="280"
-                         alt="{{ selectedgame.title }}"/>
+                         alt="{{ selectedgame.title }}"/></a>
                         {% else %}
-                          <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?d=mm&f=y" width="356px" height="280px" alt="{{ user.username }}"/>
+                           <a href="{% url 'show_game' game.slug %}"><img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?d=mm&f=y" width="356px" height="280px" alt="{{ user.username }}"/></a>
                         {% endif %}
 
 
