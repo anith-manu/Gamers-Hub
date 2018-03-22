@@ -194,10 +194,15 @@ def show_game(request, game_name_slug):
         context_dict['form'] = form
     return render(request, 'gamer_hub/show_game.html', context_dict)
 
+
 def search(request):
-	if 'q' in request.GET and request.GET['q']:
-		q = request.GET['q']
-		games = Game.objects.filter(title=q)
-		return render(request, 'gamer_hub/search_result.html', {'games': games, 'query': q})
-	else:
-		return HttpResponse('search here')
+    if 'q' in request.GET and request.GET['q']:
+        q = request.GET['q']
+        all_games = Game.objects.all()
+        games = []
+        for game in all_games:
+            if q.lower() in game.title.lower():
+                games.append(game)
+        return render(request, 'gamer_hub/search_result.html', {'games': games, 'query': q})
+    else:
+        return HttpResponse('search here')
