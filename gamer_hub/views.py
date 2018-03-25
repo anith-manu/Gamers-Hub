@@ -179,7 +179,7 @@ def show_game(request, game_name_slug):
     context_dict['top_reviews'] = get_top_reviews(reviews, number_of_reviews=len(reviews))
     context_dict['reviews'] = reviews
     if request.user.is_authenticated():
-        user_profile = UserProfile.objects.get(user=request.user)
+        user_profile, created = UserProfile.objects.get_or_create(user=request.user)
         context_dict['reviews_upvoted'] = user_profile.reviews_upvoted.all()
         context_dict['reviews_downvoted'] = user_profile.reviews_downvoted.all()
         if request.method == 'POST':
