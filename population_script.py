@@ -110,7 +110,8 @@ def add_game(game):
     g.publisher = game['publisher']
     g.youtube_url = game['url']
     picture_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'media', 'game_covers')
-    img_file = open(picture_path + "\\" + game['cover'], "rb")
+    # img_file = open(picture_path + "\\" + game['cover'], "rb")
+    img_file = open(os.path.join(picture_path, game['cover']), "rb")
     g.picture.save(game['title']+'png', img_file, save=True)
     for plat in game['platforms']:
         g.platform.add(Platform.objects.get_or_create(name=plat)[0])
