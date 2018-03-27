@@ -21,9 +21,21 @@ def populate():
     # url is the string of symbols copied from the end of the youtube video url
     # for the picture you have to download it, put it in media\game_covers and copy its name
     games = [
-        {'title': 'Dark Sous 3', 'publisher': 'From Software', 'game_info': 'Play as undead etc..',
+		{'title': 'Dark Souls 3', 'publisher': 'From Software', 'game_info': 'Play as undead etc..',
          'genre': 'Action-RPG', 'release_date': '24.03.2016', 'platforms': ['PC', 'PS4', 'Xbox One'],
          'url': '_zDZYrIUgKE', 'cover': '2760211-ds3_cover_art.png'}
+        {'title': 'Grand theft auto V', 'publisher': 'Rockstar Games', 'game_info': 'Set within the fictional state of San Andreas, based on Southern California, the single-player story follows three criminals and their efforts to commit heists while under pressure from a government agency. The open world design lets players freely roam San Andreas open countryside and the fictional city of Los Santos, based on Los Angeles.',
+         'genre': 'Action-Andventure', 'release_date': '18.11.2014', 'platforms': ['PC', 'PS4', 'Xbox One','PS3','Xbox360'],
+         'url': 'QkkoHAzjnUs&t=2s', 'cover': 'Grand_Theft_Auto_V.png'},
+		 {'title': 'Overwatch', 'publisher': 'Blizzard Entertainment', 'game_info': 'Overwatch assigns players into two teams of six, with each player selecting from a roster of over 20 characters, known in-game as "heroes", each with a unique style of play, whose roles are divided into four general categories: Offense, Defense, Tank, and Support. Players on a team work together to secure and defend control points on a map or escort a payload across the map in a limited amount of time. ',
+         'genre': 'FPS', 'release_date': '24.05.2017', 'platforms': ['PC', 'PS4', 'Xbox One'],
+         'url': 'FqnKB22pOC0', 'cover': 'overwatch-cover.jpg'},
+		 {'title': 'League of Legends', 'publisher': 'Riot Games', 'game_info': 'In League of Legends, players assume the role of an unseen "summoner" that controls a "champion" with unique abilities and battle against a team of other players or computer-controlled champions. The goal is usually to destroy the opposing teams "nexus", a structure which lies at the heart of a base protected by defensive structures, although other distinct game modes exist as well. Each League of Legends match is discrete, with all champions starting off fairly weak but increasing in strength by accumulating items and experience over the course of the game.[2] The champions and setting blend a variety of elements, including high fantasy, steampunk, and Lovecraftian horror.',
+         'genre': 'MOBA', 'release_date': '27.10.2009', 'platforms': ['PC'],
+         'url': 'BGtROJeMPeE', 'cover': 'GameBox.jpg'},
+		 {'title': 'Forza Horizon 3', 'publisher': 'Microsoft Studios', 'game_info': 'Forza Horizon 3 is an open world racing video game developed by Playground Games and published by Microsoft Studios for Xbox One and Microsoft Windows 10. The game features cross-platform play between the two platforms.',
+         'genre': 'Sports', 'release_date': '27.09.2016', 'platforms': ['PC','Xbox One'],
+         'url': 'RqkpT0qag5c', 'cover': '3079439-z.jpg'}
     ]
 
     platforms = [
