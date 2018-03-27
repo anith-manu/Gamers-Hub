@@ -43,7 +43,7 @@
 
       
 
-<div class="container" style="position: relative; bottom: 460px; left: 350px">
+<div class="container" style="position: relative; bottom: 680px; left: 350px">
 
       <div class="row row-offcanvas row-offcanvas-right">
 
@@ -72,7 +72,7 @@
                             <a href="{% url 'show_game' game.slug %}">{{ game }}</a>
                         </h4>
                     </div>
-                    {% if forloop.counter|divisibleby:6 %}
+                    {% if forloop.counter|divisibleby:200 %}
                         </div>
                         <div class="row">
                     {% endif %}
