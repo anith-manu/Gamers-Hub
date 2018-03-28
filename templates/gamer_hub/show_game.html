@@ -27,6 +27,8 @@
 				<div style="padding-left: 58%; position: relative; top: -30px" class="rating-block">
 					<h4>Average user rating</h4>
 					<h2 class="bold padding-bottom-7"> {{ avg_rating }}<small>/ 10</small></h2>
+					<h4 style="padding-top: 4%" >Publisher</h4>
+					<p>{{ game.publisher }}</p>
 					<p></p>
 					<h4 style="padding-top: 4%">Description</h4>
 					<p>{{ game.game_info }}</p>
@@ -42,7 +44,7 @@
         <p></p>
     </div>
 	
-	<div style="position: relative; left: 13%; top: -385px">
+	<div style="position: relative; left: 13%; top: -455px">
 	    <ul>
 	    	{% if game.picture %}
                     <img  src="{{ MEDIA_URL }}{{ game.picture }}"
