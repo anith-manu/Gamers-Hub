@@ -82,7 +82,13 @@ def populate():
     reviews = [
         {'user': 'user_1', 'game_title': 'Dark Souls 3', 'score': 9, 'content': 'Almost perfect.'},
         {'user': 'user_1', 'game_title': 'The Witcher 3: Wild Hunt', 'score': 10, 'content': 'Best game ever.'},
-        {'user': 'user_2', 'game_title': 'The Witcher 3: Wild Hunt', 'score': 9, 'content': 'Best game ever.'}
+        {'user': 'user_1', 'game_title': 'Grand theft auto V', 'score': 8, 'content': 'I prefer gta 4.'},
+        {'user': 'user_1', 'game_title': "Dragon Age: Origins", 'score': 9, 'content': 'Best game by bioware.'},
+        {'user': 'user_1', 'game_title': 'League of Legends', 'score': 8, 'content': 'Amazing but the community is too toxic'},
+        {'user': 'user_2', 'game_title': 'Fallout 4', 'score': 7, 'content': 'FPS element is good but the dialogues are some of the worst ever'},
+        {'user': 'user_2', 'game_title': 'S.T.A.L.K.E.R.: Call of Pripyat', 'score': 9, 'content': 'The atmosphere of this game is amazing!'},
+        {'user': 'user_2', 'game_title': 'The Witcher 3: Wild Hunt', 'score': 9, 'content': 'Best game ever.'},
+        {'user': 'user_2', 'game_title': 'Dark Souls 3', 'score': 9, 'content': 'Despite the improvements from dark souls 2, dark souls 1 is still the best.'},
     ]
 
     print('Adding users.')
