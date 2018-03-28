@@ -1,14 +1,13 @@
-'*.pyc'
-'db.sqlite3'
+*.pyc
+db.sqlite3
 
-'*.db'
+*.db
 
-'gamer_hub/migrations/'
-'!gamer_hub/migrations/__init__.py'
+gamer_hub/migrations/*
+!gamer_hub/migrations/__init__.py
 
-'media/'
-'!media/game_covers_src/'
-'!media/profile_images/'
+media/game_covers/*
+media/profile_images/*
 
-'gamer_hub/__pycache__/'
-'gamer_hub_project/__pycache__/'
+gamer_hub/__pycache__/*
+gamer_hub_project/__pycache__/*
