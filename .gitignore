@@ -6,6 +6,7 @@
 'gamer_hub/migrations/'
 '!gamer_hub/migrations/__init__.py'
 
+'media/'
 '!media/game_covers_src/'
 '!media/profile_images/'
 
