@@ -3,6 +3,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'gamer_hub_project.settings')
 django.setup()
 from gamer_hub.models import Platform, Game, Review, UserProfile
+from gamer_hub.views import modify_all_games_score
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -98,6 +99,7 @@ def populate():
     print('Adding reviews.')
     for review in reviews:
         add_review(review)
+    modify_all_games_score()
     print('Finished.')
 
 

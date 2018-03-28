@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from gamer_hub.models import Page, UserProfile, Game, Review, Platform
+from gamer_hub.models import UserProfile, Game, Review, Platform
 from gamer_hub.forms import UserProfileForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -9,8 +9,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 
 def index(request):
-    games_release_date_list = Game.objects.order_by('-release_date')[:3]
-    games_rating_list = Game.objects.order_by('-rating')[:3]
+    games_release_date_list = Game.objects.order_by('-release_date')[:5]
+    games_rating_list = Game.objects.order_by('-rating')[:5]
     context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
     return render(request, 'gamer_hub/index.html', context_dict)
 
@@ -19,7 +19,6 @@ def logout(request):
     context_dict = {}
     response = render(request, 'registration/logout.html', context_dict)
     return response
-
 
 
 class gamer_hubRegistrationView(RegistrationView):
@@ -99,8 +98,9 @@ def about_us(request):
 
 
 def show_platform(request, platform_slug):
-    games_release_date_list = Game.objects.filter(platform__slug=platform_slug).order_by('-release_date')[:100]
-    games_rating_list = Game.objects.filter(platform__slug=platform_slug).order_by('-rating')[:100]
+    games_to_show = 100
+    games_release_date_list = Game.objects.filter(platform__slug=platform_slug).order_by('-release_date')[:games_to_show]
+    games_rating_list = Game.objects.filter(platform__slug=platform_slug).order_by('-rating')[:games_to_show]
     context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
     platform = get_object_or_404(Platform, slug=platform_slug)
     context_dict['platform'] = platform
@@ -108,8 +108,9 @@ def show_platform(request, platform_slug):
 
 
 def show_genre(request, genre):
-    games_release_date_list = Game.objects.filter(genre=genre).order_by('-release_date')[:100]
-    games_rating_list = Game.objects.filter(genre=genre).order_by('-rating')[:100]
+    games_to_show = 100
+    games_release_date_list = Game.objects.filter(genre=genre).order_by('-release_date')[:games_to_show]
+    games_rating_list = Game.objects.filter(genre=genre).order_by('-rating')[:games_to_show]
     context_dict = {"games_release_date": games_release_date_list, "games_rating": games_rating_list}
     context_dict['genre'] = genre
     return render(request, 'gamer_hub/show_genre.html', context_dict)
